@@ -1,0 +1,25 @@
+.soap {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    border: 2px solid #0c394d;
+    background-color: #fcc938;
+    font-family: sans-serif;
+    margin: 2px;
+}
+    .soap_pic {
+        height: 40px;
+        width: 40px;
+    }
+
+.clear {
+    height: 30px;
+    width: 30px;
+    border: 2px solid grey;
+    border-radius: 5px;
+    margin: 2px;
+}
+    .clear_pic {
+        height: 15px;
+        width: 15px;
+    }

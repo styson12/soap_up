@@ -5,48 +5,30 @@ chrome.runtime.onMessage.addListener(
         sendResponse({confirmation: "scrubbing..."});
         chrome.storage.local.get(null, function(items) {
             var allKeys = Object.keys(items);
+            var allValues = Object.values(items);
             console.log(allKeys);
+            console.log(allValues);
         });
       }
     });
 
-console.log("Chrome extension go");
-
-function setStore(key, value) {
-    chrome.storage.local.set({key: value}, function() {
-        console.log('Value is set to ' + value);
+function store(key, value) {
+    var obj = {};
+    obj[key] = value;
+    chrome.storage.local.set(obj, function() {
+        console.log(`${key} is set to ` + value);
       });
 } 
 
 scan();
+
 function scan() {
-    // jQuery(document.body).on('change paste keyup', 'input', function(event) {
-    //     var target = this;
-    //     var timeout = null;
-    //     // Listen for keystroke events
-    //     target.onkeyup = function (e) {
-
-    //         // Clear the timeout if it has already been set.
-    //         // This will prevent the previous task from executing
-    //         // if it has been less than <MILLISECONDS>
-    //         clearTimeout(timeout);
-
-    //         // Make a new timeout set to go off in 800ms
-    //         timeout = setTimeout(function () {
-    //             console.log(target.value);
-    //         }, 3000);
-    //     };
-    // });
     var called = false; 
     jQuery(document.body).on('change paste keyup', 'input', function(event) {
             var target = this;
             if (called == false) {
                 setTimeout(function () {
-                    console.log(target.value);
-                    // setStore(target.value, target.value);
-                    chrome.storage.local.set({"blah": target.value}, function() {
-                        console.log('Value is set to ' + target.value);
-                      });
+                    store(target.value, target.value);
                     called = false;
                 }, 6000);
                 called = true; 
@@ -57,7 +39,7 @@ function scan() {
         var target = this;
         if (called == false) {
             setTimeout(function () {
-                console.log(target.value);
+                store(target.value, target.value);
                 called = false;
             }, 6000);
             called = true; 
@@ -65,7 +47,8 @@ function scan() {
     });
     
     jQuery(document.body).on('DOMSubtreeModified', 'div.display-value', function(event) {
-        console.log(jQuery(this).text());
+        var value = jQuery(this).text();
+        store(value, value);
     });
     
     // jQuery(document.body).on('click', 'eso-yes-no', function(event) {
@@ -75,40 +58,6 @@ function scan() {
     // });
 }
 
-// function getInputs(){
-//     // var inputs = document.getElementsByTagName('input');
-//     // setTimeout(function(){
-//     //     for (let input of inputs) {
-//     //         if (input.hasAttribute('ng-model')){
-//     //             console.log(input.getAttribute('ng-model'));
-//     //         }
-//     //     }
-//     // }, 3000);
-//     let promise = new Promise((resolve, reject) => {
-//         setTimeout(function(){
-//             resolve(document.getElementsByTagName('input'));
-//           }, 2000);
-//       });
-      
-//     promise.then((inputs) => {
-//     for (let input of inputs) {
-//         if (input.hasAttribute('ng-model')){
-//             console.log(input.getAttribute('ng-model'));
-
-//             console.log(input.value);
-//         }
-//     }
-//     });
-
-// }
-
-// getInputs();
-
-// $(function(){
-//     $('li').click(function() {
-//         getInputs();
-//     });
-// });
 
 
 
