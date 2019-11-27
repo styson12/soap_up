@@ -1,3 +1,14 @@
+const keys = {
+    "_esoTextModel['_esoFieldModel[\\'currentVital.pulse.pulseRate\\']']": "HR",
+    "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
+    "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureDiastolic\\']']": "ABP",
+    "_esoTextModel['_esoFieldModel[\\'currentVital.respiration.respirationRate\\']']": "RR",
+    "_esoTextModel['glucose']" : "BGL",
+    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
+    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
+    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM"
+};
+
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       console.log("Message received");
@@ -26,9 +37,12 @@ function scan() {
     var called = false; 
     jQuery(document.body).on('change paste keyup', 'input', function(event) {
             var target = this;
+            var key = target.getAttribute("ng-model");
             if (called == false) {
                 setTimeout(function () {
-                    store(target.value, target.value);
+                    if (key in keys) {
+                        store(keys[key], target.value);
+                    }
                     called = false;
                 }, 6000);
                 called = true; 
@@ -47,9 +61,17 @@ function scan() {
     });
     
     jQuery(document.body).on('DOMSubtreeModified', 'div.display-value', function(event) {
+        var key = jQuery(this).parents("eso-single-select").attr("ng-model");
         var value = jQuery(this).text();
-        store(value, value);
+        if (key in keys) {
+            store(keys[key], value);
+        }
     });
+
+    // jQuery( "label:contains('GCS')" ).siblings(".score-value").on('DOMSubtreeModified', function(event) {
+    //     var value = jQuery(this).text();
+    //     store("GCS", value);
+    // });
     
     // jQuery(document.body).on('click', 'eso-yes-no', function(event) {
     //     console.log(this.class);

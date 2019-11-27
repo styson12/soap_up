@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "SOAPup",
+    "name": "SOAP Up",
     "version": "1.0",
     "description": "Use this extension to generate SOAP.",
     "content_scripts": [
@@ -13,12 +13,12 @@
 
     ],
     "icons":{
-        "128": "./icons/icon128.png",
-        "48": "./icons/icon48.png",
-        "16": "./icons/icon16.png"
+        "128": "./icons/soap_up_icon128.png",
+        "48": "./icons/soap_up_icon48.png",
+        "16": "./icons/soap_up_icon16.png"
     },
     "browser_action": {
-        "default_icon": "./icons/icon128.png",
+        "default_icon": "./icons/soap_up_icon128.png",
         "default_popup": "popup.html"
     },
 
