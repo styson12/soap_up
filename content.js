@@ -6,7 +6,16 @@ const keys = {
     "_esoTextModel['glucose']" : "BGL",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
-    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM"
+    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM",
+    "_esoFieldModel['vm.skinSection.skin.cold']": "Cold",
+    "_esoFieldModel['vm.skinSection.skin.cyanotic']": "Cyanotic",
+    "_esoFieldModel['vm.skinSection.skin.diaphoretic']": "Diaphoretic",
+    "_esoFieldModel['vm.skinSection.skin.hot']": "Hot",
+    "_esoFieldModel['vm.skinSection.skin.jaundice']": "Jaundice",
+    "_esoFieldModel['vm.skinSection.skin.lividity']": "Lividity",
+    "_esoFieldModel['vm.skinSection.skin.mottled']": "Mottled",
+    "_esoFieldModel['vm.skinSection.skin.pale']": "Pale",
+    "_esoFieldModel['vm.skinSection.skin.other']": "Other"
 };
 
 chrome.runtime.onMessage.addListener(
@@ -27,9 +36,15 @@ function store(key, value) {
     var obj = {};
     obj[key] = value;
     chrome.storage.local.set(obj, function() {
-        console.log(`${key} is set to ` + value);
+        console.log(`${key} is set to ${value}.`);
       });
 } 
+
+function remove(key) {
+    chrome.storage.local.remove(key, function(){
+        console.log(`${key} removed.`);
+    });
+}
 
 scan();
 
@@ -68,16 +83,21 @@ function scan() {
         }
     });
 
-    // jQuery( "label:contains('GCS')" ).siblings(".score-value").on('DOMSubtreeModified', function(event) {
-    //     var value = jQuery(this).text();
-    //     store("GCS", value);
-    // });
-    
-    // jQuery(document.body).on('click', 'eso-yes-no', function(event) {
-    //     console.log(this.class);
-    //     console.log("blah");
-    //     console.log(jQuery(this).text());
-    // });
+    jQuery(document.body).on('click', 'eso-slide-toggle', function(event) {
+        var key = jQuery(this).attr("ng-model");
+        var name = jQuery(this).attr("class");
+        if (key in keys) {
+            if (name.includes("positive")) {
+                store(keys[key], "positive");
+            }
+            else if (name.includes("negative")) {
+                store(keys[key], "negative");
+            }
+            else {
+                remove(keys[key]);
+            }
+        }
+    })
 }
 
 
