@@ -7,6 +7,7 @@ const keys = {
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM",
+    // Skin
     "_esoFieldModel['vm.skinSection.skin.cold']": "Cold",
     "_esoFieldModel['vm.skinSection.skin.cyanotic']": "Cyanotic",
     "_esoFieldModel['vm.skinSection.skin.diaphoretic']": "Diaphoretic",
@@ -15,7 +16,18 @@ const keys = {
     "_esoFieldModel['vm.skinSection.skin.lividity']": "Lividity",
     "_esoFieldModel['vm.skinSection.skin.mottled']": "Mottled",
     "_esoFieldModel['vm.skinSection.skin.pale']": "Pale",
-    "_esoFieldModel['vm.skinSection.skin.other']": "Other"
+    "_esoFieldModel['vm.skinSection.skin.other']": "Other",
+    // Eyes
+    "_esoFieldModel['vm.heentSection.eyes.blind.right']": "Blind_R",
+    "_esoFieldModel['vm.heentSection.eyes.blind.left']": "Blind_L",
+    "_esoFieldModel['vm.heentSection.eyes.constricted.right']": "Constricted_R",
+    "_esoFieldModel['vm.heentSection.eyes.constricted.left']": "Constricted_L",
+    "_esoFieldModel['vm.heentSection.eyes.dilated.right']": "Dilated_R",
+    "_esoFieldModel['vm.heentSection.eyes.dilated.left']": "Dilated_L",
+    "_esoFieldModel['vm.heentSection.eyes.nonReactive.right']": "Non-Reactive_R",
+    "_esoFieldModel['vm.heentSection.eyes.nonReactive.left']": "Non-Reactive_L",
+    "_esoFieldModel['vm.heentSection.eyes.other.right']": "Other_R",
+    "_esoFieldModel['vm.heentSection.eyes.other.left']": "Other_L"
 };
 
 chrome.runtime.onMessage.addListener(
