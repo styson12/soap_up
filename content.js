@@ -1,4 +1,9 @@
 const keys = {
+    //Subjective
+    "_esoTextModel['_esoFieldModel[\\'vm.patientComplaint.chiefComplaint\\']']": "Chief Complaint",
+    "Add History": "History",
+    "Add Medications": "Medications",
+    //Objective
     "_esoTextModel['_esoFieldModel[\\'currentVital.pulse.pulseRate\\']']": "HR",
     "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
     "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureDiastolic\\']']": "ABP",
@@ -7,7 +12,7 @@ const keys = {
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM",
-    // Skin
+        // Skin
     "_esoFieldModel['vm.skinSection.skin.cold']": "Cold",
     "_esoFieldModel['vm.skinSection.skin.cyanotic']": "Cyanotic",
     "_esoFieldModel['vm.skinSection.skin.diaphoretic']": "Diaphoretic",
@@ -17,7 +22,7 @@ const keys = {
     "_esoFieldModel['vm.skinSection.skin.mottled']": "Mottled",
     "_esoFieldModel['vm.skinSection.skin.pale']": "Pale",
     "_esoFieldModel['vm.skinSection.skin.other']": "Other",
-    // Eyes
+        // Eyes
     "_esoFieldModel['vm.heentSection.eyes.blind.right']": "Blind_R",
     "_esoFieldModel['vm.heentSection.eyes.blind.left']": "Blind_L",
     "_esoFieldModel['vm.heentSection.eyes.constricted.right']": "Constricted_R",
@@ -45,11 +50,16 @@ chrome.runtime.onMessage.addListener(
     });
 
 function store(key, value) {
-    var obj = {};
-    obj[key] = value;
-    chrome.storage.local.set(obj, function() {
-        console.log(`${key} is set to ${value}.`);
-      });
+    if (value === "") {
+        remove(key);
+    }
+    else {
+        var obj = {};
+        obj[key] = value;
+        chrome.storage.local.set(obj, function() {
+            console.log(`${key} is set to ${value}.`);
+            });
+    }
 } 
 
 function remove(key) {
@@ -107,6 +117,18 @@ function scan() {
             }
             else {
                 remove(keys[key]);
+            }
+        }
+    })
+
+    jQuery(document.body).on('click', 'check-mark', function(event) {
+        var value = jQuery(this).parents("div").next("div").children("div").text();
+        var key = jQuery(this).parents("main").prevAll("header").children("div").children("div").children("h1").text();
+        var name = jQuery(this).attr("class");
+        if (key in keys) {
+            if (name.includes("add")) {
+            }
+            else {
             }
         }
     })
