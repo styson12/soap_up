@@ -10,6 +10,8 @@ const keys = {
     "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
     "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureDiastolic\\']']": "ABP",
     "_esoTextModel['_esoFieldModel[\\'currentVital.respiration.respirationRate\\']']": "RR",
+    "_esoFieldModel['currentVital.respiration.respirationQualityId']": "Respitory Quality",
+    "_esoFieldModel['currentVital.respiration.respirationRhythmId']": "Respitory Rhythm",
     "_esoTextModel['glucose']" : "BGL",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
     "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
