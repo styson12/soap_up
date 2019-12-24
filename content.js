@@ -2,7 +2,9 @@ const keys = {
     //Subjective
     "_esoTextModel['_esoFieldModel[\\'vm.patientComplaint.chiefComplaint\\']']": "Chief Complaint",
     "Add History": "History",
+    "Add Allergies" : "Allergies",
     "Add Medications": "Medications",
+
     //Objective
     "_esoTextModel['_esoFieldModel[\\'currentVital.pulse.pulseRate\\']']": "HR",
     "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
@@ -68,6 +70,32 @@ function remove(key) {
     });
 }
 
+function append(key, value) {
+    chrome.storage.local.get(key, function(result) {
+         if (jQuery.isEmptyObject(result)) {
+             var arr = [];
+             arr.push(value);
+             store(key, arr);
+         }
+         else {
+            result[key].push(value);
+            store(key, result[key]);
+         }
+    })
+}
+
+function unappend(key, value) {
+    chrome.storage.local.get(key, function(result) {
+        result[key].splice(result[key].indexOf(value), 1);
+        if(result[key].length == 0){
+            remove(key);
+        }
+        else {
+            store(key, result[key]);
+        }
+    })
+}
+
 scan();
 
 function scan() {
@@ -127,86 +155,15 @@ function scan() {
         var name = jQuery(this).attr("class");
         if (key in keys) {
             if (name.includes("add")) {
+                append(keys[key], value);
             }
             else {
+                unappend(keys[key], value);
             }
         }
     })
 }
 
-
-
-
-// MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-// var observer = new MutationObserver(subscriber);
-
-// let promise = new Promise((resolve, reject) => {
-//     setTimeout(function(){
-//         // var target = document.querySelectorAll('input[ng-model], eso-field.eso-field:not(.ng-hide)');
-//         var targets = document.querySelectorAll('input, textarea, div.display-value, button.btn');
-//         resolve(targets);
-//       }, 3000);
-//   });
-  
-// promise.then((targets) => {
-//     console.log(targets);
-//     for (t of targets){
-//         var observer = new MutationObserver(subscriber);
-//         observer.observe(t, {  
-//             // childList: true, 
-//             attributes: true
-//             // characterData: true
-//             // subtree: true,
-//           });
-//     }
-// });
-
-// function subscriber(mutations) {
-//     mutations.forEach((mutation) => {
-//       // handle mutations here
-//       console.log(mutation);
-//     });
-//   }
-// ****************************
-// MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-// var observer = new MutationObserver(subscriber);
-
-// let promise = new Promise((resolve, reject) => {
-//     setTimeout(function(){
-//         // var target = document.querySelectorAll('input[ng-model], eso-field.eso-field:not(.ng-hide)');
-//         var targets = document.querySelectorAll('input, textarea, div.display-value, button.btn');
-//         resolve(targets);
-//       }, 3000);
-//   });
-  
-// promise.then((targets) => {
-//     console.log(targets);
-//     for (t of targets){
-//         var observer = new MutationObserver(subscriber);
-//         observer.observe(t, {  
-//             // childList: true, 
-//             attributes: true
-//             // characterData: true
-//             // subtree: true,
-//           });
-//     }
-// });
-
-// function subscriber(mutations) {
-//     mutations.forEach((mutation) => {
-//         console.log(mutation);
-//         scan();
-//     });
-//   }
-
-// observer.observe(document, {
-//     childList: true, 
-//     attributes: true,
-//     characterData: true,
-//     subtree: true,
-// })
 
 
 
