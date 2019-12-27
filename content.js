@@ -49,6 +49,23 @@ chrome.runtime.onMessage.addListener(
             var allValues = Object.values(items);
             console.log(allKeys);
             console.log(allValues);
+            var soapString = "";
+            for (var key in items) {
+                if (items.hasOwnProperty(key)) {
+                    soapString += `${key} : `;
+                    if (Array.isArray(items[key])) {
+                        for (var i of items[key]){
+                            soapString += `${i} `;
+                        }
+                        soapString += '\n';
+                    }
+                    else {
+                        soapString += `${items[key]} \n`;
+                    }
+                }
+            }
+            console.log(soapString);
+            jQuery('textarea').val(soapString);
         });
       }
     });
@@ -111,18 +128,21 @@ function scan() {
                         store(keys[key], target.value);
                     }
                     called = false;
-                }, 6000);
+                }, 1000);
                 called = true; 
             }
     });
     
     jQuery(document.body).on('change paste keyup', 'textarea', function(event) {
         var target = this;
+        var key = target.getAttribute("ng-model");
         if (called == false) {
             setTimeout(function () {
-                store(target.value, target.value);
+                if (key in keys) {
+                    store(keys[key], target.value);
+                }
                 called = false;
-            }, 6000);
+            }, 1000);
             called = true; 
         }
     });
