@@ -1,42 +1,45 @@
 const keys = {
     //Subjective
-    "_esoTextModel['_esoFieldModel[\\'vm.patientComplaint.chiefComplaint\\']']": "Chief Complaint",
-    "Add History": "History",
-    "Add Allergies" : "Allergies",
-    "Add Medications": "Medications",
-
+    "S": {
+        "_esoTextModel['_esoFieldModel[\\'vm.patientComplaint.chiefComplaint\\']']": "Chief Complaint",
+        "Add History": "History",
+        "Add Allergies" : "Allergies",
+        "Add Medications": "Medications",
+    },
     //Objective
-    "_esoTextModel['_esoFieldModel[\\'currentVital.pulse.pulseRate\\']']": "HR",
-    "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
-    "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureDiastolic\\']']": "ABP",
-    "_esoTextModel['_esoFieldModel[\\'currentVital.respiration.respirationRate\\']']": "RR",
-    "_esoFieldModel['currentVital.respiration.respirationQualityId']": "Respitory Quality",
-    "_esoFieldModel['currentVital.respiration.respirationRhythmId']": "Respitory Rhythm",
-    "_esoTextModel['glucose']" : "BGL",
-    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
-    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
-    "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM",
-        // Skin
-    "_esoFieldModel['vm.skinSection.skin.cold']": "Cold",
-    "_esoFieldModel['vm.skinSection.skin.cyanotic']": "Cyanotic",
-    "_esoFieldModel['vm.skinSection.skin.diaphoretic']": "Diaphoretic",
-    "_esoFieldModel['vm.skinSection.skin.hot']": "Hot",
-    "_esoFieldModel['vm.skinSection.skin.jaundice']": "Jaundice",
-    "_esoFieldModel['vm.skinSection.skin.lividity']": "Lividity",
-    "_esoFieldModel['vm.skinSection.skin.mottled']": "Mottled",
-    "_esoFieldModel['vm.skinSection.skin.pale']": "Pale",
-    "_esoFieldModel['vm.skinSection.skin.other']": "Other",
-        // Eyes
-    "_esoFieldModel['vm.heentSection.eyes.blind.right']": "Blind_R",
-    "_esoFieldModel['vm.heentSection.eyes.blind.left']": "Blind_L",
-    "_esoFieldModel['vm.heentSection.eyes.constricted.right']": "Constricted_R",
-    "_esoFieldModel['vm.heentSection.eyes.constricted.left']": "Constricted_L",
-    "_esoFieldModel['vm.heentSection.eyes.dilated.right']": "Dilated_R",
-    "_esoFieldModel['vm.heentSection.eyes.dilated.left']": "Dilated_L",
-    "_esoFieldModel['vm.heentSection.eyes.nonReactive.right']": "Non-Reactive_R",
-    "_esoFieldModel['vm.heentSection.eyes.nonReactive.left']": "Non-Reactive_L",
-    "_esoFieldModel['vm.heentSection.eyes.other.right']": "Other_R",
-    "_esoFieldModel['vm.heentSection.eyes.other.left']": "Other_L"
+    "O": {
+        "_esoTextModel['_esoFieldModel[\\'currentVital.pulse.pulseRate\\']']": "HR",
+        "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
+        "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureDiastolic\\']']": "ABP", 
+        "_esoTextModel['_esoFieldModel[\\'currentVital.respiration.respirationRate\\']']": "RR",
+        "_esoFieldModel['currentVital.respiration.respirationQualityId']": "Respitory Quality",
+        "_esoFieldModel['currentVital.respiration.respirationRhythmId']": "Respitory Rhythm",
+        "_esoTextModel['glucose']" : "BGL",
+        "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
+        "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
+        "_esoFieldModel['currentVital.glasgowComaScale.glascowComaMotorId']" : "GCSM",
+            // Skin
+        "_esoFieldModel['vm.skinSection.skin.cold']": "Cold",
+        "_esoFieldModel['vm.skinSection.skin.cyanotic']": "Cyanotic",
+        "_esoFieldModel['vm.skinSection.skin.diaphoretic']": "Diaphoretic",
+        "_esoFieldModel['vm.skinSection.skin.hot']": "Hot",
+        "_esoFieldModel['vm.skinSection.skin.jaundice']": "Jaundice",
+        "_esoFieldModel['vm.skinSection.skin.lividity']": "Lividity",
+        "_esoFieldModel['vm.skinSection.skin.mottled']": "Mottled",
+        "_esoFieldModel['vm.skinSection.skin.pale']": "Pale",
+        "_esoFieldModel['vm.skinSection.skin.other']": "Other",
+            // Eyes
+        "_esoFieldModel['vm.heentSection.eyes.blind.right']": "Blind_R",
+        "_esoFieldModel['vm.heentSection.eyes.blind.left']": "Blind_L",
+        "_esoFieldModel['vm.heentSection.eyes.constricted.right']": "Constricted_R",
+        "_esoFieldModel['vm.heentSection.eyes.constricted.left']": "Constricted_L",
+        "_esoFieldModel['vm.heentSection.eyes.dilated.right']": "Dilated_R",
+        "_esoFieldModel['vm.heentSection.eyes.dilated.left']": "Dilated_L",
+        "_esoFieldModel['vm.heentSection.eyes.nonReactive.right']": "Non-Reactive_R",
+        "_esoFieldModel['vm.heentSection.eyes.nonReactive.left']": "Non-Reactive_L",
+        "_esoFieldModel['vm.heentSection.eyes.other.right']": "Other_R",
+        "_esoFieldModel['vm.heentSection.eyes.other.left']": "Other_L"
+    }
 };
 
 chrome.runtime.onMessage.addListener(
@@ -50,17 +53,21 @@ chrome.runtime.onMessage.addListener(
             console.log(allKeys);
             console.log(allValues);
             var soapString = "";
-            for (var key in items) {
-                if (items.hasOwnProperty(key)) {
-                    soapString += `${key} : `;
-                    if (Array.isArray(items[key])) {
-                        for (var i of items[key]){
-                            soapString += `${i} `;
+            for (var category in items) {
+                if (items.hasOwnProperty(category)) {
+                    soapString += `${category})\n`;
+                    for (var field in items[category]){
+                        soapString += `    ${field}: `;
+                        if (Array.isArray(items[category][field])) {
+                            for (var value in items[category][field]){
+                                if (value == items[category][field].length - 1 ) soapString += `${items[category][field][value]}`;
+                                else soapString += `${items[category][field][value]}, `
+                            }
+                            soapString += '\n';
                         }
-                        soapString += '\n';
-                    }
-                    else {
-                        soapString += `${items[key]} \n`;
+                        else {
+                            soapString += `${items[category][field]} \n`;
+                        }
                     }
                 }
             }
@@ -70,47 +77,66 @@ chrome.runtime.onMessage.addListener(
       }
     });
 
-function store(key, value) {
-    if (value === "") {
-        remove(key);
-    }
-    else {
-        var obj = {};
-        obj[key] = value;
-        chrome.storage.local.set(obj, function() {
-            console.log(`${key} is set to ${value}.`);
-            });
-    }
+function store(obj) {
+    chrome.storage.local.set(obj, function() {
+        console.log("category updated");
+        console.log(obj);
+        });
 } 
 
-function remove(key) {
-    chrome.storage.local.remove(key, function(){
-        console.log(`${key} removed.`);
-    });
-}
-
-function append(key, value) {
-    chrome.storage.local.get(key, function(result) {
-         if (jQuery.isEmptyObject(result)) {
-             var arr = [];
-             arr.push(value);
-             store(key, arr);
-         }
-         else {
-            result[key].push(value);
-            store(key, result[key]);
-         }
+function remove(category, field) {
+    getCategory(category, function(catObj) {
+        delete catObj[category][field];
+        console.log(`${field} removed from ${category}`);
+        store(catObj);
     })
 }
 
-function unappend(key, value) {
-    chrome.storage.local.get(key, function(result) {
-        result[key].splice(result[key].indexOf(value), 1);
-        if(result[key].length == 0){
-            remove(key);
+function getCategory(category, callback) {
+    chrome.storage.local.get(category, function(result) {
+        if (jQuery.isEmptyObject(result)) {
+            var obj = {};
+            obj[category] = {};
+            callback(obj);
         }
         else {
-            store(key, result[key]);
+           callback(result);
+        }
+   })  
+}
+
+function keyExists(key) {
+    for (var category in keys) {
+        if (key in keys[category]) return category;
+    }
+    return false;
+}
+
+function append(category, field, value) {
+    getCategory(category, function(catObj){
+        if (jQuery.isEmptyObject(catObj[category][field])) {
+            var arr = [];
+            arr.push(value);
+            catObj[category][field] = arr;
+            store(catObj);
+        }
+        else {
+            if (!catObj[category][field].includes(value)){
+                catObj[category][field].push(value);
+                store(catObj);
+            }
+        }
+    })
+}
+
+function unappend(category, field, value) {
+    getCategory(category, function(catObj){
+        catObj[category][field].splice(catObj[category][field].indexOf(value), 1)
+        if(catObj[category][field].length == 0){
+            remove(category, field);
+        }
+        else {
+            store(catObj);
         }
     })
 }
@@ -119,13 +145,21 @@ scan();
 
 function scan() {
     var called = false; 
-    jQuery(document.body).on('change paste keyup', 'input', function(event) {
+    jQuery(document.body).on('change paste keyup', 'input, textarea', function(event) {
             var target = this;
             var key = target.getAttribute("ng-model");
             if (called == false) {
                 setTimeout(function () {
-                    if (key in keys) {
-                        store(keys[key], target.value);
+                    var category = keyExists(key);
+                    if (category) {
+                        var field = keys[category][key];
+                        if (target.value === "") remove(category, field);
+                        else {
+                            getCategory(category, function(catObj){
+                                catObj[category][field] = target.value;
+                                store(catObj);
+                            });
+                        }
                     }
                     called = false;
                 }, 1000);
@@ -133,41 +167,70 @@ function scan() {
             }
     });
     
-    jQuery(document.body).on('change paste keyup', 'textarea', function(event) {
-        var target = this;
-        var key = target.getAttribute("ng-model");
-        if (called == false) {
-            setTimeout(function () {
-                if (key in keys) {
-                    store(keys[key], target.value);
-                }
-                called = false;
-            }, 1000);
-            called = true; 
-        }
-    });
-    
     jQuery(document.body).on('DOMSubtreeModified', 'div.display-value', function(event) {
         var key = jQuery(this).parents("eso-single-select").attr("ng-model");
         var value = jQuery(this).text();
-        if (key in keys) {
-            store(keys[key], value);
+        var category = keyExists(key);
+        if (category) {
+            var field = keys[category][key];
+            if (value != "") {
+                getCategory(category, function(catObj){
+                    catObj[category][field] = value;
+                    store(catObj);
+                });
+            }
         }
     });
+
+    // jQuery(document.body).on('click', 'div.label-container', function(event) {
+    //     var value = jQuery(this).children("div").text();
+    //     if (value.includes("Clear Selection")) {
+    //         var key = jQuery(this).parents("eso-shelf.eso-modal-family show").chilren;
+    //         console.log(key);
+    //     }
+    // });
+
+    // jQuery(document.body).on('change', 'eso-single-select', function(event) {
+    //     if(jQuery(this).attr("class").includes("quick-pick-mode")){
+    //         var key = jQuery(this).attr("ng-model");
+    //         var category = keyExists(key);
+    //         if (category) {
+    //             var field = keys[category][key];
+    //             remove(category, field);
+    //         }
+    //     }
+    // })
+
+///////////////////////////////////////
+MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+
+    function callback(mutationsList, observer) {
+        console.log('Mutations:', mutationsList);
+        console.log('Observer:', observer);
+        mutationsList.forEach(mutation => {
+            if (mutation.attributeName === 'class') {
+                console.log('Ch-ch-ch-changes!');
+            }
+        })
+    }
+
+    const mutationObserver = new MutationObserver(callback);
+    mutationObserver.observe(document, { attributes: true });
+
+//////////////////////////////
 
     jQuery(document.body).on('click', 'eso-slide-toggle', function(event) {
         var key = jQuery(this).attr("ng-model");
         var name = jQuery(this).attr("class");
-        if (key in keys) {
-            if (name.includes("positive")) {
-                store(keys[key], "positive");
-            }
-            else if (name.includes("negative")) {
-                store(keys[key], "negative");
-            }
-            else {
-                remove(keys[key]);
-            }
+        var category = keyExists(key);
+        if (category) {
+            var field;
+            if (key.includes("skin")) field = "Skin";
+            else if (key.includes("eyes")) field = "Eyes";
+            var value = keys[category][key];
+            if (name.includes("positive")) append(category, field, value);
+            else unappend(category, field, value);
         }
     })
 
@@ -175,12 +238,14 @@ function scan() {
         var value = jQuery(this).parents("div").next("div").children("div").text();
         var key = jQuery(this).parents("main").prevAll("header").children("div").children("div").children("h1").text();
         var name = jQuery(this).attr("class");
-        if (key in keys) {
+        var category = keyExists(key);
+        if (category) {
+            var field = keys[category][key];
             if (name.includes("add")) {
-                append(keys[key], value);
+               append(category, field, value);
             }
             else {
-                unappend(keys[key], value);
+                unappend(category, field, value);
             }
         }
     })
