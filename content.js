@@ -12,8 +12,8 @@ const keys = {
         "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureSystolic\\']']": "SBP",
         "_esoTextModel['_esoFieldModel[\\'currentVital.bloodPressure.bloodPressureDiastolic\\']']": "ABP", 
         "_esoTextModel['_esoFieldModel[\\'currentVital.respiration.respirationRate\\']']": "RR",
-        "_esoFieldModel['currentVital.respiration.respirationQualityId']": "Respitory Quality",
-        "_esoFieldModel['currentVital.respiration.respirationRhythmId']": "Respitory Rhythm",
+        "_esoFieldModel['currentVital.respiration.respirationQualityId']": "Respiratory Quality",
+        "_esoFieldModel['currentVital.respiration.respirationRhythmId']": "Respiratory Rhythm",
         "_esoTextModel['glucose']" : "BGL",
         "_esoFieldModel['currentVital.glasgowComaScale.glascowComaEyesId']" : "GCSE",
         "_esoFieldModel['currentVital.glasgowComaScale.glascowComaVerbalId']" : "GCSV",
@@ -48,25 +48,24 @@ chrome.runtime.onMessage.addListener(
       if (request.soap == true) {
         sendResponse({confirmation: "scrubbing..."});
         chrome.storage.local.get(null, function(items) {
-            var allKeys = Object.keys(items);
-            var allValues = Object.values(items);
-            console.log(allKeys);
-            console.log(allValues);
             var soapString = "";
-            for (var category in items) {
-                if (items.hasOwnProperty(category)) {
-                    soapString += `${category})\n`;
-                    for (var field in items[category]){
-                        soapString += `    ${field}: `;
-                        if (Array.isArray(items[category][field])) {
-                            for (var value in items[category][field]){
-                                if (value == items[category][field].length - 1 ) soapString += `${items[category][field][value]}`;
-                                else soapString += `${items[category][field][value]}, `
+            var soapOrder = ["S", "O", "A", "P"];
+            for(var index in soapOrder) {
+                for (var category in items) {
+                    if (category == soapOrder[index]) {
+                        soapString += `${category})\n`;
+                        for (var field in items[category]){
+                            soapString += `    ${field}: `;
+                            if (Array.isArray(items[category][field])) {
+                                for (var value in items[category][field]){
+                                    if (value == items[category][field].length - 1 ) soapString += `${items[category][field][value]}`;
+                                    else soapString += `${items[category][field][value]}, `
+                                }
+                                soapString += '\n';
                             }
-                            soapString += '\n';
-                        }
-                        else {
-                            soapString += `${items[category][field]} \n`;
+                            else {
+                                soapString += `${items[category][field]} \n`;
+                            }
                         }
                     }
                 }
@@ -202,21 +201,21 @@ function scan() {
     // })
 
 ///////////////////////////////////////
-MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+// MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 
-    function callback(mutationsList, observer) {
-        console.log('Mutations:', mutationsList);
-        console.log('Observer:', observer);
-        mutationsList.forEach(mutation => {
-            if (mutation.attributeName === 'class') {
-                console.log('Ch-ch-ch-changes!');
-            }
-        })
-    }
+//     function callback(mutationsList, observer) {
+//         console.log('Mutations:', mutationsList);
+//         console.log('Observer:', observer);
+//         mutationsList.forEach(mutation => {
+//             if (mutation.attributeName === 'class') {
+//                 console.log('Ch-ch-ch-changes!');
+//             }
+//         })
+//     }
 
-    const mutationObserver = new MutationObserver(callback);
-    mutationObserver.observe(document, { attributes: true });
+//     const mutationObserver = new MutationObserver(callback);
+//     mutationObserver.observe(document, { attributes: true });
 
 //////////////////////////////
 
@@ -249,6 +248,27 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             }
         }
     })
+
+    jQuery(document.body).on('DOMSubtreeModified', 'grid-row', function(event) {
+        // var key = jQuery(this).parents("eso-single-select").attr("ng-model");
+        // var value = jQuery(this).text();
+        // var category = keyExists(key);
+        // if (category) {
+        //     var field = keys[category][key];
+        //     if (value != "") {
+        //         getCategory(category, function(catObj){
+        //             catObj[category][field] = value;
+        //             store(catObj);
+        //         });
+        //     }
+        // }
+        if (jQuery(this).hasAttribute("data-key")){
+            var text = jQuery(this).text()
+            console.log("flowchart modified");
+            console.log(text);
+        }
+    });
+
 }
 
 
