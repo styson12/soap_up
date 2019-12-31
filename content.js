@@ -42,12 +42,12 @@ const keys = {
     }
 };
 
-chrome.runtime.onMessage.addListener(
+browser.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       console.log("Message received");
       if (request.soap == true) {
         sendResponse({confirmation: "scrubbing..."});
-        chrome.storage.local.get(null, function(items) {
+        browser.storage.local.get(null, function(items) {
             var soap_string = "";
             var soap_order = ["S", "O", "A", "P"];
             for(var index in soap_order) {
@@ -79,7 +79,7 @@ chrome.runtime.onMessage.addListener(
     });
 
 function store(obj) {
-    chrome.storage.local.set(obj, function() {
+    browser.storage.local.set(obj, function() {
         console.log("category updated");
         console.log(obj);
         });
@@ -94,7 +94,7 @@ function remove(category, field) {
 }
 
 function getCategory(category, callback) {
-    chrome.storage.local.get(category, function(result) {
+    browser.storage.local.get(category, function(result) {
         if (jQuery.isEmptyObject(result)) {
             var obj = {};
             obj[category] = {};
@@ -136,7 +136,7 @@ function append(category, field, value) {
                     store(catObj);
                 }
             }
-            if (!catObj[category][field].includes(value)){
+            else if (!catObj[category][field].includes(value)){
                 catObj[category][field].push(value);
                 store(catObj);
             }
