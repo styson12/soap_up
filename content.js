@@ -48,30 +48,32 @@ chrome.runtime.onMessage.addListener(
       if (request.soap == true) {
         sendResponse({confirmation: "scrubbing..."});
         chrome.storage.local.get(null, function(items) {
-            var soapString = "";
-            var soapOrder = ["S", "O", "A", "P"];
-            for(var index in soapOrder) {
+            var soap_string = "";
+            var soap_order = ["S", "O", "A", "P"];
+            for(var index in soap_order) {
                 for (var category in items) {
-                    if (category == soapOrder[index]) {
-                        soapString += `${category})\n`;
+                    if (category == soap_order[index]) {
+                        soap_string += `${category})\n`;
                         for (var field in items[category]){
-                            soapString += `    ${field}: `;
+                            soap_string += `    ${field}: `;
                             if (Array.isArray(items[category][field])) {
+                                soap_string += "\n"
                                 for (var value in items[category][field]){
-                                    if (value == items[category][field].length - 1 ) soapString += `${items[category][field][value]}`;
-                                    else soapString += `${items[category][field][value]}, `
+                                    var indent_length = field.length + 6;
+                                    var indent = " ".repeat(indent_length);
+                                    soap_string += `${indent}${items[category][field][value]}\n`;
                                 }
-                                soapString += '\n';
+                                soap_string += '\n';
                             }
                             else {
-                                soapString += `${items[category][field]} \n`;
+                                soap_string += `${items[category][field]} \n`;
                             }
                         }
                     }
                 }
             }
-            console.log(soapString);
-            jQuery('textarea').val(soapString);
+            console.log(soap_string);
+            jQuery('textarea').val(soap_string);
         });
       }
     });
@@ -120,6 +122,20 @@ function append(category, field, value) {
             store(catObj);
         }
         else {
+            if (field == "Flowchart") {
+                var exists = false;
+                for (var s in catObj[category][field]) {
+                    if(value.includes(catObj[category][field][s])) {
+                        catObj[category][field][s] = value;
+                        store(catObj);
+                        exists = true;
+                    }
+                }
+                if (!exists){
+                    catObj[category][field].push(value);
+                    store(catObj);
+                }
+            }
             if (!catObj[category][field].includes(value)){
                 catObj[category][field].push(value);
                 store(catObj);
@@ -249,24 +265,13 @@ function scan() {
         }
     })
 
-    jQuery(document.body).on('DOMSubtreeModified', 'grid-row', function(event) {
-        // var key = jQuery(this).parents("eso-single-select").attr("ng-model");
-        // var value = jQuery(this).text();
-        // var category = keyExists(key);
-        // if (category) {
-        //     var field = keys[category][key];
-        //     if (value != "") {
-        //         getCategory(category, function(catObj){
-        //             catObj[category][field] = value;
-        //             store(catObj);
-        //         });
-        //     }
-        // }
-        if (jQuery(this).hasAttribute("data-key")){
-            var text = jQuery(this).text()
-            console.log("flowchart modified");
-            console.log(text);
-        }
+    jQuery(document.body).on('DOMNodeInserted DOMSubtreeModified', 'grid-row[data-key]', function(event) {
+        var time = jQuery(this).children("grid-cell.date").children("strong").text();
+        var treatment = jQuery(this).children("grid-cell.treatment").children("strong").text();
+        var summary = jQuery(this).children("grid-cell.summary").children("div").text();
+        var value = `${time}  ${treatment}  ${summary}`;
+        console.log(value);
+        if (!value.includes("{")) append("P", "Flowchart", value);
     });
 
 }
