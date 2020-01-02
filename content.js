@@ -247,7 +247,7 @@ function scan() {
             if (name.includes("positive")) append(category, field, value);
             else unappend(category, field, value);
         }
-    })
+    });
 
     jQuery(document.body).on('click', 'check-mark', function(event) {
         var value = jQuery(this).parents("div").next("div").children("div").text();
@@ -263,18 +263,25 @@ function scan() {
                 unappend(category, field, value);
             }
         }
-    })
+    });
 
     jQuery(document.body).on('DOMNodeInserted DOMSubtreeModified', 'grid-row[data-key]', function(event) {
         var time = jQuery(this).children("grid-cell.date").children("strong").text();
         var treatment = jQuery(this).children("grid-cell.treatment").children("strong").text();
         var summary = jQuery(this).children("grid-cell.summary").children("div").text();
         var value = `${time}  ${treatment}  ${summary}`;
-        console.log(value);
         if (!value.includes("{")) append("P", "Flowchart", value);
     });
 
+    jQuery(document.body).on('click', 'button:contains("New Record"), button:contains("CAD Import"), button:contains("NEW PATIENT")', function(event){
+        browser.storage.local.clear(function() {
+            console.log("Cleared browser storage.")
+          });
+    });
+
 }
+
+
 
 
 
