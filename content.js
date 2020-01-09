@@ -50,15 +50,15 @@ browser.runtime.onMessage.addListener(
         browser.storage.local.get(null, function(items) {
             var soap_string = "";
             var soap_order = ["S", "O", "A", "P"];
-            for(var index in soap_order) {
-                for (var category in items) {
-                    if (category == soap_order[index]) {
+            for(let letter of soap_order) {
+                for (let category in items) {
+                    if (category == letter) {
                         soap_string += `${category})\n`;
-                        for (var field in items[category]){
+                        for (let field in items[category]){
                             soap_string += `    ${field}: `;
                             if (Array.isArray(items[category][field])) {
                                 soap_string += "\n"
-                                for (var value in items[category][field]){
+                                for (let value in items[category][field]){
                                     var indent_length = field.length + 6;
                                     var indent = " ".repeat(indent_length);
                                     soap_string += `${indent}${items[category][field][value]}\n`;
@@ -107,7 +107,7 @@ function getCategory(category, callback) {
 }
 
 function keyExists(key) {
-    for (var category in keys) {
+    for (let category in keys) {
         if (key in keys[category]) return category;
     }
     return false;
@@ -124,7 +124,7 @@ function append(category, field, value) {
         else {
             if (field == "Flowchart") {
                 var exists = false;
-                for (var s in catObj[category][field]) {
+                for (let s in catObj[category][field]) {
                     if(value.includes(catObj[category][field][s])) {
                         catObj[category][field][s] = value;
                         store(catObj);
