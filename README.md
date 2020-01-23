@@ -1,4 +1,4 @@
-![Image](icons/soap_up_icon_128.png "icon")
+![Image](./icons/soap_up_icon128.png "icon")
 
 SOAP Up
 =======
