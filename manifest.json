@@ -2,12 +2,12 @@
     "author": "Scott Tyson",
     "manifest_version": 2,
     "name": "SOAP Up",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "Use this extension to generate SOAP.",
     "content_scripts": [
         {
             "matches": [
-                "https://www.esosuite.net/ehr*"
+                "https://*.esosuite.net/ehr*"
             ],
             "js": ["jquery.js", "content.js"]
         }

@@ -1,3 +1,4 @@
+//dictionary that assigns field names based on indentifiers (frequently "ng-model" attributes) 
 const keys = {
     //Subjective
     "S": {
@@ -39,9 +40,14 @@ const keys = {
         "_esoFieldModel['vm.heentSection.eyes.nonReactive.left']": "Non-Reactive_L",
         "_esoFieldModel['vm.heentSection.eyes.other.right']": "Other_R",
         "_esoFieldModel['vm.heentSection.eyes.other.left']": "Other_L"
+    },
+    //Assessment
+    "A": {
+        "_esoFieldModel['vm.clinicalImpression.primaryImpressionId']": "Primary Impression"
     }
 };
 
+//fills narrative when pop-up button is clicked
 browser.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       console.log("Message received");
@@ -78,6 +84,7 @@ browser.runtime.onMessage.addListener(
       }
     });
 
+//stores objects
 function store(obj) {
     browser.storage.local.set(obj, function() {
         console.log("category updated");
@@ -85,6 +92,7 @@ function store(obj) {
         });
 } 
 
+//removes objects from storage
 function remove(category, field) {
     getCategory(category, function(catObj) {
         delete catObj[category][field];
@@ -93,6 +101,7 @@ function remove(category, field) {
     })
 }
 
+//retrieves specified category object ("S", "O", etc.)
 function getCategory(category, callback) {
     browser.storage.local.get(category, function(result) {
         if (jQuery.isEmptyObject(result)) {
@@ -106,6 +115,7 @@ function getCategory(category, callback) {
    })  
 }
 
+//checks if current tag is targeted for SOAP note (has identifier in keys)
 function keyExists(key) {
     for (let category in keys) {
         if (key in keys[category]) return category;
@@ -113,6 +123,7 @@ function keyExists(key) {
     return false;
 }
 
+//appends specified input to iterable field
 function append(category, field, value) {
     getCategory(category, function(catObj){
         if (jQuery.isEmptyObject(catObj[category][field])) {
@@ -144,6 +155,7 @@ function append(category, field, value) {
     })
 }
 
+//removes specified input from interable field
 function unappend(category, field, value) {
     getCategory(category, function(catObj){
         catObj[category][field].splice(catObj[category][field].indexOf(value), 1)
@@ -158,6 +170,7 @@ function unappend(category, field, value) {
 
 scan();
 
+//event listeners
 function scan() {
     var called = false; 
     jQuery(document.body).on('change paste keyup', 'input, textarea', function(event) {
@@ -197,44 +210,6 @@ function scan() {
         }
     });
 
-    // jQuery(document.body).on('click', 'div.label-container', function(event) {
-    //     var value = jQuery(this).children("div").text();
-    //     if (value.includes("Clear Selection")) {
-    //         var key = jQuery(this).parents("eso-shelf.eso-modal-family show").chilren;
-    //         console.log(key);
-    //     }
-    // });
-
-    // jQuery(document.body).on('change', 'eso-single-select', function(event) {
-    //     if(jQuery(this).attr("class").includes("quick-pick-mode")){
-    //         var key = jQuery(this).attr("ng-model");
-    //         var category = keyExists(key);
-    //         if (category) {
-    //             var field = keys[category][key];
-    //             remove(category, field);
-    //         }
-    //     }
-    // })
-
-///////////////////////////////////////
-// MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-
-//     function callback(mutationsList, observer) {
-//         console.log('Mutations:', mutationsList);
-//         console.log('Observer:', observer);
-//         mutationsList.forEach(mutation => {
-//             if (mutation.attributeName === 'class') {
-//                 console.log('Ch-ch-ch-changes!');
-//             }
-//         })
-//     }
-
-//     const mutationObserver = new MutationObserver(callback);
-//     mutationObserver.observe(document, { attributes: true });
-
-//////////////////////////////
-
     jQuery(document.body).on('click', 'eso-slide-toggle', function(event) {
         var key = jQuery(this).attr("ng-model");
         var name = jQuery(this).attr("class");
@@ -273,6 +248,7 @@ function scan() {
         if (!value.includes("{")) append("P", "Flowchart", value);
     });
 
+    //clear storage when new record patient record is generated
     jQuery(document.body).on('click', 'button:contains("New Record"), button:contains("CAD Import"), button:contains("NEW PATIENT")', function(event){
         browser.storage.local.clear(function() {
             console.log("Cleared browser storage.")
