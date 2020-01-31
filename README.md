@@ -1,7 +1,7 @@
 <img src="./icons/soap_up_icon128.png" alt="icon" width="30"/>OAP Up
 ===================================================
 
-SOAP Up is a cross-platform browser extension that streamlines "SOAP note" patient reporting for ESO users. The goal of this project is to eliminate redundancy in the <a href="https://www.esosuite.net">ESO</a> workflow of emergency first-responders by populating priorly entered information into a requisite "narrative".
+SOAP Up is a cross-platform browser extension that streamlines "SOAP note" patient reporting for ESO users. The goal of this project is to eliminate redundancy in the <a href="https://www.esosuite.net">ESO</a> workflow of emergency first-responders by storing, retrieving, formatting and populating priorly submitted information into the "Narrative" section of any record.
 
 Screenshots
 ===========
