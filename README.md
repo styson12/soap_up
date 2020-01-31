@@ -3,6 +3,10 @@
 
 Cross-platform browser extension streamlines "SOAP note" patient reporting for ESO users
 
+Screenshots
+===========
+<img src="./promotional_tile.png" alt="screenshot displaying pop-up"/>
+
 License
 =======
 
