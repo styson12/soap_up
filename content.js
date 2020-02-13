@@ -48,12 +48,12 @@ const keys = {
 };
 
 //fills narrative when pop-up button is clicked
-browser.runtime.onMessage.addListener(
+chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       console.log("Message received");
       if (request.soap == true) {
         sendResponse({confirmation: "scrubbing..."});
-        browser.storage.local.get(null, function(items) {
+        chrome.storage.local.get(null, function(items) {
             var soap_string = "";
             var soap_order = ["S", "O", "A", "P"];
             for(let letter of soap_order) {
@@ -86,7 +86,7 @@ browser.runtime.onMessage.addListener(
 
 //stores objects
 function store(obj) {
-    browser.storage.local.set(obj, function() {
+    chrome.storage.local.set(obj, function() {
         console.log("category updated");
         console.log(obj);
         });
@@ -103,7 +103,7 @@ function remove(category, field) {
 
 //retrieves specified category object ("S", "O", etc.)
 function getCategory(category, callback) {
-    browser.storage.local.get(category, function(result) {
+    chrome.storage.local.get(category, function(result) {
         if (jQuery.isEmptyObject(result)) {
             var obj = {};
             obj[category] = {};
@@ -250,7 +250,7 @@ function scan() {
 
     //clear storage when new record patient record is generated
     jQuery(document.body).on('click', 'button:contains("New Record"), button:contains("CAD Import"), button:contains("NEW PATIENT")', function(event){
-        browser.storage.local.clear(function() {
+        chrome.storage.local.clear(function() {
             console.log("Cleared browser storage.")
           });
     });
